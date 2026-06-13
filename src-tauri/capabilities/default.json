@@ -9,6 +9,7 @@
     "core:default",
     "opener:default",
     "sql:default",
+    "sql:allow-execute",
     "notification:default",
     "dialog:default",
     "fs:allow-appdata-read-recursive",

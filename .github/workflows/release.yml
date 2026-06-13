@@ -15,7 +15,7 @@ jobs:
           - platform: macos-latest      # Apple Silicon
           - platform: ubuntu-22.04      # Linux
           - platform: windows-latest    # Windows
-    runs-on: ${{ matrix.platform }}     # ← this job runs once per OS above
+    runs-on: ${{ matrix.platform }}
 
     steps:
       - uses: actions/checkout@v4                 # clone your repo onto the VM
@@ -32,10 +32,10 @@ jobs:
 
       - run: npm ci                               # app lives at the repo root now
 
-      - uses: tauri-apps/tauri-action@v0          # ← runs `tauri build` + makes the Release
+      - uses: tauri-apps/tauri-action@v0          # runs `tauri build` + makes the Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # auto-provided by GitHub
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'FocusFlow __VERSION__'    # __VERSION__ pulled from tauri.conf.json
-          releaseDraft: true                      # creates a *draft* you review before publishing
+          releaseDraft: true

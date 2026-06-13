@@ -45,7 +45,14 @@ export function TimerCard() {
         />
       </svg>
 
-      <div className="absolute flex flex-col items-center text-white">
+      <div
+        className="absolute flex flex-col items-center text-white"
+        // Promote the text to its own GPU layer so WebKit rasterizes it once and
+        // composites it over the ring — otherwise the per-second-animating,
+        // drop-shadow-filtered SVG below forces glyph re-rasterization and the
+        // label occasionally renders corrupted (e.g. "Long break" → "Shng break").
+        style={{ transform: "translateZ(0)" }}
+      >
         <div
           style={{
             fontFamily: "var(--font-display)",

@@ -1,6 +1,12 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
+use tauri::window::Color;
 use tauri::{AppHandle, Emitter, Manager, PhysicalPosition, PhysicalSize, WebviewUrl, WebviewWindowBuilder};
+
+/// Overlay backdrop color (`#05080a`), set on the native window so it paints dark
+/// from the first frame instead of flashing WKWebView's default white before the
+/// webview content loads.
+const OVERLAY_BG: Color = Color(5, 8, 10, 255);
 
 /// True while a break overlay is on screen. Drives the focus guard (FR-E3).
 static OVERLAY_ACTIVE: AtomicBool = AtomicBool::new(false);
@@ -31,6 +37,7 @@ pub fn show_break_overlay(app: AppHandle, duration_secs: u64, hold_secs: u64) ->
             .minimizable(false)
             .maximizable(false)
             .resizable(false)
+            .background_color(OVERLAY_BG)
             .visible(false)
             .build()
             .map_err(|e| e.to_string())?;

@@ -14,14 +14,24 @@ export function StatsScreen() {
   const [range, setRange] = useState<Range>("week");
   const [anchor, setAnchor] = useState(() => new Date());
   const [data, setData] = useState<StatsData | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const dataVersion = useTimerStore((s) => s.dataVersion);
   const dateRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let alive = true;
-    void loadStats(range, anchor).then((d) => {
-      if (alive) setData(d);
-    });
+    loadStats(range, anchor)
+      .then((d) => {
+        if (alive) {
+          setData(d);
+          setError(null);
+        }
+      })
+      .catch((e) => {
+        // Surface the failure instead of leaving a silent blank page.
+        console.error("Failed to load stats:", e);
+        if (alive) setError(e instanceof Error ? e.message : String(e));
+      });
     return () => {
       alive = false;
     };
@@ -86,7 +96,15 @@ export function StatsScreen() {
           </div>
         </div>
 
-        {data && !data.everActive ? (
+        {error ? (
+          <div className="flex flex-col items-center justify-center gap-3 py-24 text-center" style={{ color: "var(--ui-text-3)" }}>
+            <BarChart3 size={42} strokeWidth={1.5} />
+            <div className="text-[15px] font-semibold" style={{ color: "var(--ui-text-2)" }}>
+              Couldn't load your activity
+            </div>
+            <div className="max-w-[320px] text-[12.5px] leading-relaxed">{error}</div>
+          </div>
+        ) : data && !data.everActive ? (
           <div className="flex flex-col items-center justify-center gap-3 py-24 text-center" style={{ color: "var(--ui-text-3)" }}>
             <BarChart3 size={42} strokeWidth={1.5} />
             <div className="text-[15px] font-semibold" style={{ color: "var(--ui-text-2)" }}>
