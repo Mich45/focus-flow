@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- icon background -->
+  <rect width="128" height="128" rx="28" fill="#F3F4F6"/>
+
+  <!-- bottom bowl: empty glass (white fill, green outline). Flat top tucks under the neck. -->
+  <path d="M58 67 H70 C80 67 88 75 88 84 V100 H40 V84 C40 75 48 67 58 67 Z"
+        fill="#FFFFFF" stroke="#1B4332" stroke-width="4" stroke-linejoin="round"/>
+
+  <g fill="#1B4332">
+    <!-- top cap -->
+    <rect x="28" y="20" width="72" height="8" rx="2.5"/>
+    <!-- top bowl: full of sand, narrows to a flat neck (no point) -->
+    <path d="M40 28 H88 V44 C88 54 80 60 70 60 H58 C48 60 40 54 40 44 Z"/>
+    <!-- neck: bridges the two bowls, covering their joining edges -->
+    <rect x="58" y="58" width="12" height="11"/>
+    <!-- bottom cap -->
+    <rect x="28" y="100" width="72" height="8" rx="2.5"/>
+  </g>
+</svg>

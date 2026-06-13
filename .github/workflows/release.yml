@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']            # triggers when you push a tag like v0.1.0
+
+jobs:
+  publish:
+    permissions:
+      contents: write       # lets the job create a GitHub Release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest      # Apple Silicon
+          - platform: ubuntu-22.04      # Linux
+          - platform: windows-latest    # Windows
+    runs-on: ${{ matrix.platform }}     # ← this job runs once per OS above
+
+    steps:
+      - uses: actions/checkout@v4                 # clone your repo onto the VM
+      - uses: actions/setup-node@v4
+        with: { node-version: lts/* }
+      - uses: dtolnay/rust-toolchain@stable       # install Rust
+
+      - name: Install Linux deps                  # only on the Linux VM
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev librsvg2-dev \
+            libappindicator3-dev patchelf
+
+      - run: npm ci                               # app lives at the repo root now
+
+      - uses: tauri-apps/tauri-action@v0          # ← runs `tauri build` + makes the Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # auto-provided by GitHub
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'FocusFlow __VERSION__'    # __VERSION__ pulled from tauri.conf.json
+          releaseDraft: true                      # creates a *draft* you review before publishing

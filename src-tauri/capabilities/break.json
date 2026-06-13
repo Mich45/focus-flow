@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "break",
+  "description": "Minimal capability for break overlay windows (FR-E7): no fs, dialog, sql, or shell — the overlay only needs core (invoke + events).",
+  "windows": ["break-*"],
+  "permissions": ["core:default"]
+}

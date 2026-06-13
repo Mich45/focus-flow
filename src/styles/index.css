@@ -1,0 +1,246 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Tailwind v4 dark-mode driven by our [data-theme="dark"] attribute
+   instead of the default prefers-color-scheme. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  background: #0b0f0d;
+  color: var(--ui-text);
+}
+
+::selection {
+  background: rgba(45, 106, 79, 0.25);
+}
+
+/* Frosted glass control over the wallpaper (ported from design system). */
+.glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Animations (ported from design system). */
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+@keyframes pop {
+  from { transform: scale(0.97); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.pop {
+  animation: pop var(--dur-norm) var(--ease-decel) both;
+}
+@keyframes fadeUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.fade-up {
+  animation: fadeUp var(--dur-slow) var(--ease-decel) both;
+}
+
+/* ===== App shell (ported from design system) ===== */
+
+/* sidebar rail */
+.rail {
+  position: relative;
+  z-index: 5;
+  width: 84px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0 12px;
+  gap: 4px;
+  background: rgba(14, 20, 17, 0.42);
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+.nav-btn {
+  width: 54px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  transition: all var(--dur-norm) var(--ease-std);
+  position: relative;
+}
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.nav-btn.active {
+  color: #fff;
+}
+.nav-btn.active .nav-ico {
+  background: var(--accent);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+.nav-ico {
+  width: 34px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--dur-norm) var(--ease-std);
+  background: transparent;
+}
+.nav-lbl {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* content stage */
+.stage {
+  position: relative;
+  z-index: 4;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* frosted content sheet for utility screens */
+.sheet {
+  position: absolute;
+  inset: 14px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--ui-sheet);
+  backdrop-filter: blur(48px) saturate(160%);
+  -webkit-backdrop-filter: blur(48px) saturate(160%);
+  border: 0.5px solid var(--ui-border-2);
+  box-shadow: var(--shadow-16);
+  display: flex;
+  flex-direction: column;
+  color: var(--ui-text);
+}
+.sheet-head {
+  flex-shrink: 0;
+  padding: 22px 28px 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.sheet-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.sheet-sub {
+  font-size: 13px;
+  color: var(--ui-text-2);
+  margin-top: 3px;
+}
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 28px 28px;
+}
+.sheet-body::-webkit-scrollbar {
+  width: 10px;
+}
+.sheet-body::-webkit-scrollbar-thumb {
+  background: var(--ui-border-2);
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+/* card */
+.card {
+  background: var(--ui-card);
+  border: 0.5px solid var(--ui-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+}
+
+/* segmented control */
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 11px;
+  gap: 2px;
+  background: var(--ui-sunken);
+}
+.seg-btn {
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ui-text-2);
+  transition: all var(--dur-norm) var(--ease-std);
+}
+.seg-btn.on {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: all var(--dur-fast) var(--ease-std);
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn-pri {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 18px;
+  box-shadow: var(--shadow-4);
+}
+.btn-ghost {
+  background: var(--ui-sunken);
+  color: var(--ui-text);
+  padding: 9px 14px;
+  border: 0.5px solid var(--ui-border);
+}
+.btn-ghost:hover { background: var(--ui-border); }
+
+/* text input */
+input.tin {
+  background: var(--ui-card);
+  border: 0.5px solid var(--ui-border-2);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  font-size: 14px;
+  color: var(--ui-text);
+  outline: none;
+  width: 100%;
+  transition: border var(--dur-fast), box-shadow var(--dur-fast);
+}
+input.tin:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.16);
+}
+input.tin::placeholder { color: var(--ui-text-3); }
