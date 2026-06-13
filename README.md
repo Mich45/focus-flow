@@ -1,8 +1,12 @@
 # FocusFlow
 
-A modern, offline-only desktop Pomodoro timer. Features include focus/break cycles, ambient
+![FocusFlow home screen](public/focus-flow-home.png)
+
+FocusFlow is a modern, offline-only desktop Pomodoro timer. It features focus and break cycles, ambient
 sounds, custom backgrounds, daily to-dos, statistics, and full-screen break
-enforcement. Built with Tauri 2, React, and TypeScript. All data is stored
+enforcement. 
+
+FocusFlow is built with Tauri 2, React, and TypeScript. All data is stored
 locally; there is no account system and no network dependency.
 
 ## Development
