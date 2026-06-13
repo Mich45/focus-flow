@@ -9,7 +9,10 @@ export type ExportFormat = "json" | "csv";
 
 function csvCell(v: unknown): string {
   if (v === null || v === undefined) return "";
-  const s = String(v);
+  let s = String(v);
+  // Formula-injection guard: a leading =,+,-,@ (or tab/CR) makes spreadsheet apps
+  // treat the cell as a formula. Prefix with a single quote to neutralize it.
+  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 

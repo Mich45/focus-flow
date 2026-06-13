@@ -24,6 +24,10 @@ interface TimerState {
   focusCountInCycle: number;
   /** Monotonic count of sessions that ran to 100% — drives the end chime (FR-A6). */
   completions: number;
+  /** Bumped AFTER a session row is finalized in the DB. Data views (stats, task
+   *  tallies) key their refresh on this so they never read before the write
+   *  commits — unlike `completions`, which fires synchronously for the chime. */
+  dataVersion: number;
   /** Row id of the in-flight session, for finalizing it on end (FR-T9). */
   currentSessionId: number | null;
   /** Re-render heartbeat: bumped by tick() so derived remaining refreshes. */
@@ -53,11 +57,16 @@ export const useTimerStore = create<TimerState>((set, get) => {
     });
   }
 
-  /** Finalize the in-flight session (completed = ran to 100%). */
+  /** Finalize the in-flight session (completed = ran to 100%). Bump `dataVersion`
+   *  only once the write has committed, so stats/task views re-query fresh data. */
   function recordEnd(completed: boolean) {
     const id = get().currentSessionId;
-    if (id != null) void completeSession(id, completed);
     set({ currentSessionId: null });
+    if (id != null) {
+      void completeSession(id, completed).then(() => {
+        set({ dataVersion: get().dataVersion + 1 });
+      });
+    }
   }
 
   /** Move to the next mode in the cycle. `skipped` => current session incomplete. */
@@ -96,6 +105,7 @@ export const useTimerStore = create<TimerState>((set, get) => {
     pausedRemainingMs: null,
     focusCountInCycle: 0,
     completions: 0,
+    dataVersion: 0,
     currentSessionId: null,
     nowMs: Date.now(),
 

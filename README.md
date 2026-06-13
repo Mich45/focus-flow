@@ -18,6 +18,24 @@ npm run dev            # run just the web UI (no native features)
 npm run tauri build    # produce a packaged build
 ```
 
+## Installing a released build
+
+Release binaries are **not code-signed or notarized**, so your OS will warn you
+the first time you open the app. This is expected for an independent project —
+the app is unchanged, it simply hasn't been registered with Apple/Microsoft.
+
+**macOS** — the first launch is blocked with "FocusFlow can't be opened because
+Apple cannot check it for malicious software." Either:
+- Right-click (or Control-click) the app → **Open** → **Open** in the dialog, or
+- Open **System Settings → Privacy & Security** and click **Open Anyway**.
+
+**Windows** — SmartScreen shows "Windows protected your PC." Click **More info**
+→ **Run anyway**.
+
+**Linux** — no warning; mark the AppImage executable (`chmod +x`) if needed.
+
+You only need to do this once per installed version.
+
 ## Bundled ambient audio
 
 Bundled tracks live in `public/sounds/` and are sourced from

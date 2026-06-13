@@ -1,8 +1,9 @@
 [package]
 name = "focus-flow-app"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "An offline-only desktop Pomodoro timer with ambient sounds, custom backgrounds, daily to-dos, statistics, and full-screen break enforcement."
+authors = ["Michael <hungbomichael@gmail.com>"]
+license = "MIT"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -26,7 +26,7 @@ export function TasksScreen() {
   const carryCandidates = useTaskStore((s) => s.carryCandidates);
   const carryOver = useTaskStore((s) => s.carryOver);
   const refreshCounts = useTaskStore((s) => s.refreshCounts);
-  const completions = useTimerStore((s) => s.completions);
+  const dataVersion = useTimerStore((s) => s.dataVersion);
 
   const readOnly = date !== localDay();
   const remaining = tasks.filter((t) => !t.done).length;
@@ -34,7 +34,7 @@ export function TasksScreen() {
   // Keep "actual" pomodoro tallies live as focus sessions complete.
   useEffect(() => {
     void refreshCounts();
-  }, [completions, refreshCounts]);
+  }, [dataVersion, refreshCounts]);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
   const onDragEnd = (e: DragEndEvent) => {

@@ -14,7 +14,7 @@ export function StatsScreen() {
   const [range, setRange] = useState<Range>("week");
   const [anchor, setAnchor] = useState(() => new Date());
   const [data, setData] = useState<StatsData | null>(null);
-  const completions = useTimerStore((s) => s.completions);
+  const dataVersion = useTimerStore((s) => s.dataVersion);
   const dateRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export function StatsScreen() {
     return () => {
       alive = false;
     };
-  }, [range, anchor, completions]);
+  }, [range, anchor, dataVersion]);
 
   const { start, end } = rangeBounds(range, anchor);
   const rangeLabel =
