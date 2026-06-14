@@ -67,7 +67,16 @@ export function SettingsScreen() {
     if (path) setExportNote(`Saved to ${path}`);
   };
   const onReset = () => {
-    if (window.confirm("Delete ALL sessions, tasks, imported media, and settings? This cannot be undone.")) {
+    if (
+      window.confirm(
+        "Factory reset will permanently delete ALL your data:\n\n" +
+          "• Focus sessions and statistics\n" +
+          "• Tasks\n" +
+          "• Imported sounds and backgrounds\n" +
+          "• All settings\n\n" +
+          "This cannot be undone. Continue?"
+      )
+    ) {
       void factoryReset();
     }
   };
