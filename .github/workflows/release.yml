@@ -3,6 +3,12 @@ name: Release
 on:
   push:
     tags: ['v*']            # triggers when you push a tag like v0.1.0
+  workflow_dispatch:        # lets you run it manually from the Actions tab / gh CLI
+    inputs:
+      tag:
+        description: 'Version tag to build and draft a release for (e.g. v0.1.0 or v0.0.1-test). tauri-action creates the tag if it does not exist.'
+        required: true
+        default: v0.0.1-test
 
 jobs:
   publish:
@@ -36,6 +42,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # auto-provided by GitHub
         with:
-          tagName: ${{ github.ref_name }}
+          tagName: ${{ inputs.tag || github.ref_name }}   # manual input, else the pushed tag
           releaseName: 'FocusFlow __VERSION__'    # __VERSION__ pulled from tauri.conf.json
           releaseDraft: true
